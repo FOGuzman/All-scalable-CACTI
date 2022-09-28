@@ -1,7 +1,5 @@
 clear all;clc;close all
-addpath(genpath('tools')); % algorithms
-addpath('functions');
-addpath('largescale_functions')
+addpath(genpath('./tools'));
 
 vidName = "mayo";
 
