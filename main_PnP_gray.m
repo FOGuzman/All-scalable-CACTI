@@ -1,109 +1,33 @@
 clear all;clc;close all
 addpath(genpath('./tools'));
 
-vidName = "mayo";
+datasetFolder = "./dataset/gray/";
+vidName = "dogo1";
 
-dataFolder = "./dataset/gray/" + vidName +"/";
+
 dataRecon = "./large_scale_results/test/" + vidName +"/";
-if ~isfolder(dataRecon);mkdir(dataRecon);end
-list = dir(dataFolder+"*.tiff");
-vids = natsort({list.name});
+RenderFold = "./large_scale_videos";
 
 Metrics = 1;
 RenderVideo = 1;
 SaveMask = 0;
 
-RenderFold = "./large_scale_videos";
-if ~isfolder(RenderFold);mkdir(RenderFold);end
-
-DEmethod = "STT";
+DEmethod = "RevSCI";
 UPmethod = "2DI";
+MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";
-StreamMode = "sequential";
 SwapSensing = 0;
 B = 8;
-spix = 8;
+spix = 2;
 frames = spix^2*B;
-resolution = 256*spix;
+methodResolution = 256;
+resolution = methodResolution*spix;
 alpha = B;
-
-
-switch OrderType
-    case "normal"                
-      order = reshape([1:spix^2],[spix spix])';     
-    case "spiral"    
-      order = reshape([1:spix^2],[spix spix])';
-      order(2:2:end,:) = flip(order(2:2:end,:),2);   
-    case "random"
-      order = reshape(randperm(spix^2),[spix spix])';      
-    case "designed"
-      [~,~,~,order]=DDDRSNNP3(spix,spix^2);  
-end
-
-
-% Loading masks
 EDSR_SR = spix;
-if DEmethod == "RevSCI" || DEmethod == "GAP-TV"
-cod = load('./RevSCI-net-master/train/mask');cod = cod.mask;
-end
 
-if DEmethod == "SCI3D"
-cod = load('./SCI3D-main/simulation_dataset/traffic.mat');cod = cod.mask;
-end
-
-if DEmethod == "STT"
-cod = load('./STFormer-main/trained_mask.mat');cod = logical(cod.mask);
-end
-
-
-if UPmethod == "TC"
-    PixelAdjust = "no";
-end
-
-
-%%Designed
-nmask = cat(3,[0 0 1 1;0 1 0 0;1 1 0 1;0 0 1 0],[1 0 0 1;0 1 0 0;1 0 0 1;0 0 0 0],...
-    [1 0 0 1;0 0 1 0;0 0 0 1;1 0 1 0],[0 0 0 0;1 1 1 0;0 0 0 0;1 0 1 1],...
-    [0 0 1 0;1 0 1 0;0 1 1 0;1 0 0 1],[0 1 1 0;1 0 0 0;1 0 1 0;0 0 0 1],...
-    [0 0 0 0;1 0 0 1;0 0 1 1;0 1 0 1],[1 1 0 0;0 0 1 1;0 1 0 0;0 1 0 0]);
-
-cod = [];
-for k = 1:8
-u = kron(ones(64,64),nmask(:,:,k));
-cod = cat(3,u,cod);
-end
-
-
-forder = [1:B];
-aux = forder;
-for k = 2:spix^2
-   forder = cat(2,forder,aux+alpha*(k-1)) ;
-end 
-
-if SwapSensing
-    Mm = spix^2*alpha+B-alpha;
-    L = spix^2*alpha+1;
-   for k = 1:length(forder)
-       if forder(k) >= L
-        forder(k) = forder(k)-(L-1);
-       end
-   end
-   L = spix^2*alpha;
-
-else
-    L = spix^2*alpha+B-alpha;
-end
-
-if alpha == 0; L = B; end
-
-
-%plot_sensing();
-
-RenderName = sprintf("%s_square_d%s_sp%i_%ip%if_%sOrder_%sx%i_PixAdj%sUp_alpha%i",...
-    vidName,DEmethod,spix,resolution,frames,OrderType,UPmethod,EDSR_SR,PixelAdjust,alpha);
-fprintf("%s\n",RenderName)
-%% Load and sampling
+setting_propeties();
+%% Load and sampling loop
 cont = 1;
 offset = 0;
 full_meas = zeros(resolution,resolution);
@@ -118,13 +42,8 @@ for k = 1:spix^2
         offset = -length(vids)+1;
       end
       
-      [vidFrame] = StreamNframes(dataFolder,vids,sf,cont,offset,frames,forder,resolution,spix,"Gray");
-%       sl = vidFrame(:,:,8);
-%       sl = zeros(resolution,resolution);
-%       sl(resolution/2-spix/2:resolution/2+spix/2-1,resolution/2-spix/2:resolution/2+spix/2-1) = 8*ones(spix,spix);
-%       vidFrame = cat(3,sl,sl,sl,sl,sl,sl,sl,sl);
-%       
-      SubMask = CrateMaskRevSCI(cod,order,k,spix,resolution,frames);
+      vidFrame = StreamNframes(dataFolder,vids,sf,cont,offset,frames,forder,resolution,spix,"Gray");      
+      SubMask  = ExtractSubmasks(cod,order,k,spix,resolution,frames);
       full_meas = full_meas + sum(vidFrame.*SubMask,3);
       if SaveMask
           if mcont==1
@@ -148,38 +67,17 @@ for k = 1:spix^2
 end
 
 %% Preparing subproblems
-
 [meas,mask,orig] = PrepareSubproblems(full_meas,cod,order,spix,datae);
-
-% point source
-% meas = zeros(256,256,spix^2);
-% for k = 1:spix^2
-%     meas(128,128,k) = 8;
-% end
 
 %% Demultiplexing
 demultiplexing_methods
 
-
 %% Adjust subpixel pre Upscaling
-if PixelAdjust == "pre"
-    kk= 1;
-    for m = 1:frames
-        if order(kk,2)>1 ||  order(kk,1)>1
-        pic_up(:,:,m) = uint8(imshift_fft([order(kk,2)-1 (order(kk,1)-1)]/spix,recon_raw(:,:,m))); 
-        end
-        if mod(m,B)==0
-        kk=kk+1;
-        end
-    end
-end
-
+if PixelAdjust == "pre";pic_up = FourierShift(recon_raw,order,spix,B);end
 
 %% Upscaling
 
 upscaling_methods
-
-
 
 %% Antialising filtering
 if UPmethod ~= "TC" && alpha < B
@@ -216,10 +114,9 @@ rtime = toc;
 
 if RenderVideo
     disp("Rendering video")
-    %vid = VideoWriter(RenderFold+"/"+RenderName + "_gray.mp4",'MPEG-4');
     vid = VideoWriter(RenderFold+"/"+RenderName + "_gray.avi");
     vid.Quality = 100;
-    if max(forder) > 25;
+    if max(forder) > 25
     vid.FrameRate = 25;
     else
     vid.FrameRate = round(max(forder)/2); 
