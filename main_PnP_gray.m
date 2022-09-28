@@ -3,7 +3,7 @@ addpath(genpath('./tools'));
 
 vidName = "mayo";
 
-dataFolder = "./dataset_largescale/gray/" + vidName +"/";
+dataFolder = "./dataset/gray/" + vidName +"/";
 dataRecon = "./large_scale_results/test/" + vidName +"/";
 if ~isfolder(dataRecon);mkdir(dataRecon);end
 list = dir(dataFolder+"*.tiff");
