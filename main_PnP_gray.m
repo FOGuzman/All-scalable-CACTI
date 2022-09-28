@@ -1,5 +1,5 @@
 clear all;clc;close all
-addpath(genpath('./DeSCI-master')); % algorithms
+addpath(genpath('tools')); % algorithms
 addpath('functions');
 addpath('largescale_functions')
 
