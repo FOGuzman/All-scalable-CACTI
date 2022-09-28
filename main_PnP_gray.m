@@ -291,7 +291,3 @@ fprintf(file,"Mean SSIM:                   %.4f \n",mean(v_ssim));
 fprintf(file,"Std SSIM:                    %.4f \n",std(v_ssim));
 fprintf(file,"Date:                        %s \n",datetime);
 fclose(file);
-
-
-
-% Cambios de prueba
