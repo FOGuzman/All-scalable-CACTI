@@ -1,6 +1,8 @@
 dataset/
 *dataset/*
+
 *large_scale_results/*
 large_scale_results/
+
 *large_scale_videos/*
 large_scale_videos/
