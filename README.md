@@ -4,16 +4,16 @@ Official code for the work All-scalable CACTI
 
 
 ## To do
-- Opening [O] \(Demultiplexing)
-	- [0] GAP-TV
+- \(Demultiplexing)
+	- [x] GAP-TV
 	- [ ] DeSCI
 	- [ ] RevSCI
 	- [ ] SCI3D
     - [ ] STT
 
 
-- Opening [O] \(Upscaling)
-	- [0] 2DI
+- \(Upscaling)
+	- [x] 2DI
 	- [ ] 3DI
 	- [ ] TC
 	- [ ] EDSR
