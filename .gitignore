@@ -1,8 +1,15 @@
 dataset/
-*dataset/*
 
-*large_scale_results/*
 large_scale_results/
 
-*large_scale_videos/*
 large_scale_videos/
+
+tools/methods/RevSCI-net-master/ExtremeCacti_in
+
+tools/methods/RevSCI-net-master/ExtremeCacti_out
+
+tools/methods/SCI30-main/ExtremeCacti_in
+
+tools/methods/SCI30-main/ExtremeCacti_out
+
+tools/methods/SCI30-main/checkpoint
