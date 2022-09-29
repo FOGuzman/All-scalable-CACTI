@@ -12,8 +12,8 @@ Metrics = 1;
 RenderVideo = 1;
 SaveMask = 0;
 
-DEmethod = "GAP-FFDNET";
-UPmethod = "2DI";
+DEmethod = "SCI3D";
+UPmethod = "EDSR";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";

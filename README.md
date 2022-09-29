@@ -6,7 +6,6 @@ Official code for the work All-scalable CACTI
 ## To do
 - \(Demultiplexing)
 	- [x] GAP-TV
-	- [x] GAP-FFDNET
 	- [x] DeSCI
 	- [x] RevSCI
 	- [x] SCI3D
