@@ -114,6 +114,8 @@ switch UPmethod
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
+            else
+              aux_r = aux(:,:,k);
             end
             clc;fprintf('Applying 3D Interpolation for (%i/%i)\n',bc,size(pic_up,3));    
             imwrite(aux_r,dataRecon+fname);
@@ -135,6 +137,8 @@ switch UPmethod
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
+            else
+              aux_r = aux(:,:,k);   
             end
             clc;fprintf('Preparing images for EDSR (%i/%i)\n',bc,size(pic_up,3));    
             imwrite(imresize(aux_r,resolution/spix*[1 1]),EDSR_testpath+fname);
@@ -179,6 +183,8 @@ switch UPmethod
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
+            else
+              aux_r = aux(:,:,k);
             end
             clc;fprintf('Preparing images for VSR (%i/%i)\n',bc,size(pic_up,3));    
             imwrite(imresize(aux_r,resolution/spix*[1 1]),VSR_testpath+fname);
@@ -220,6 +226,8 @@ switch UPmethod
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
+            else
+              aux_r = aux(:,:,k);
             end
             clc;fprintf('Preparing images for VSR++ (%i/%i)\n',bc,size(pic_up,3));    
             imwrite(imresize(aux_r,resolution/spix*[1 1]),VSRpp_testpath+fname);

@@ -1,5 +1,5 @@
 %% Loading video
-if ~isfolder(RenderFold);mkdir(RenderFold);end
+if exist('RendeFold','var');if ~isfolder(RenderFold);mkdir(RenderFold);end;end
 if ~isfolder(dataRecon);mkdir(dataRecon);end
 dataFolder = datasetFolder + vidName +"/";
 list = dir(dataFolder+"*.tiff");

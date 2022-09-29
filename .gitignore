@@ -1,6 +1,7 @@
 dataset/gray/
 large_scale_results/
 large_scale_videos/
+large_scale_metrics_results/
 tools/methods/RevSCI-net-master/ExtremeCacti_in/
 tools/methods/RevSCI-net-master/ExtremeCacti_out/
 tools/methods/RevSCI-net-master/model/model/RevSCInet_model_epoch_100.pth

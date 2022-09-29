@@ -13,10 +13,10 @@ RenderVideo = 1;
 SaveMask = 0;
 
 DEmethod = "STT";
-UPmethod = "TC";
+UPmethod = "VSR++";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
-PixelAdjust = "post";
+PixelAdjust = "pre";
 SwapSensing = 0;
 B = 8;
 spix = 2;
