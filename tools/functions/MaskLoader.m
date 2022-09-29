@@ -5,17 +5,19 @@ switch MaskMethod
     
     case "MethodDefined"
     % Loading masks
-    if DEmethod == "RevSCI" || DEmethod == "GAP-TV"
-    cod = load('./tools/methods/RevSCI-net-master/train/mask');cod = cod.mask;
-    end
+     switch DEmethod
+         
+         case "RevSCI"
+           cod = load('./tools/methods/RevSCI-net-master/train/mask');cod = cod.mask;
+         case "SCI3D"  
+           cod = load('./tools/methods/SCI3D-main/simulation_dataset/traffic.mat');cod = cod.mask;
+         case "STT"
+           cod = load('./tools/methods/STFormer-main/trained_mask.mat');cod = logical(cod.mask);
+         otherwise
+           cod = load('./tools/methods/RevSCI-net-master/train/mask');cod = cod.mask;  
+    
+     end
 
-    if DEmethod == "SCI3D"
-    cod = load('./tools/methods/SCI3D-main/simulation_dataset/traffic.mat');cod = cod.mask;
-    end
-
-    if DEmethod == "STT"
-    cod = load('./tools/methods/STFormer-main/trained_mask.mat');cod = logical(cod.mask);
-    end
 
     case "Designed"
     %%Designed
