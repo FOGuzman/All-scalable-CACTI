@@ -10,7 +10,7 @@ Official code for the work All-scalable CACTI
 	- [x] DeSCI
 	- [x] RevSCI
 	- [x] SCI3D
-    - [ ] STT
+    - [x] STT
 
 
 - \(Upscaling)

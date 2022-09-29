@@ -38,7 +38,7 @@ case "RevSCI"
     disp("------------- Sending to SCI3D model -----------")
     tic
     systxt = system('python ./tools/methods/SCI3D-main/recon_extreme_cacti.py');
-    if systxt ~= 0; error("Error in RevSCI python script");end
+    if systxt ~= 0; error("Error in SCI3D python script");end
     disp("------------- Reconstruction done -----------")
     load("./tools/methods/SCI3D-main/ExtremeCacti_out/data_in.mat");
 
@@ -61,7 +61,8 @@ case "RevSCI"
     clear datae par_meas subMask subMeas vidFrame
     disp("------------- Sending to ST Transformer model -----------")
     tic
-    system('python ./tools/methods/STFormer-main/tools/test.py ./tools/methods/STFormer-main/configs/STFormer/stformer_base.py --weights=./tools/methods/STFormer-main/checkpoints/stformer_base.pth --work_dir=./tools/methods/STFormer-main/out --mask_path=./tools/methods/STFormer-main/test_datasets/mask/mask.mat');
+    systxt = system('python ./tools/methods/STFormer-main/tools/test.py ./tools/methods/STFormer-main/configs/STFormer/stformer_base.py --weights=./tools/methods/STFormer-main/checkpoints/stformer_base.pth --work_dir=./tools/methods/STFormer-main/out --mask_path=./tools/methods/STFormer-main/test_datasets/mask/mask.mat');
+    if systxt ~= 0; error("Error in Spatio Temporal Transformer python script");end
     disp("------------- Reconstruction done -----------")
     load("./tools/methods/STFormer-main/out/test_images/data.mat");
 
