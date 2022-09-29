@@ -5,7 +5,6 @@ addpath(genpath("tools"))
 datasetFolder = "./dataset/gray/";
 MetricFold = "./large_scale_metrics_results/comparing_all/";
 xlsFold = "./large_scale_metrics_results/";
-xlsSession = date;
 if ~isfolder(MetricFold);mkdir(MetricFold);end
 list = dir("dataset/gray");
 Video_list = natsort({list.name});
@@ -275,10 +274,10 @@ Results = cat(1,Results,auxT);
 save(MetricFold+RenderName + "_metrics.mat",'Results')
 
 
-if ~isfile(xlsFold+sprintf("session_%s.xlsx",xlsSession))
+if ~isfile(xlsFold+sprintf("session_%s.xlsx",date))
     writetable(Results,xlsFold+sprintf("session_%s.xlsx",date),'Sheet',xslcont);
 else
-    writetable(Results,xlsFold+sprintf("session_%s.xlsx",date),'Sheet',xslcont,'WriteMode','append');
+    writetable(Results,xlsFold+sprintf("session_%s.xlsx",date),'Sheet',xslcont);
 end
 
 end
