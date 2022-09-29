@@ -12,7 +12,7 @@ Metrics = 1;
 RenderVideo = 1;
 SaveMask = 0;
 
-DEmethod = "RevSCI";
+DEmethod = "DeSCI";
 UPmethod = "2DI";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
