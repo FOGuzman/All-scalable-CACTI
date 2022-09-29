@@ -12,8 +12,8 @@ Metrics = 1;
 RenderVideo = 1;
 SaveMask = 0;
 
-DEmethod = "SCI3D";
-UPmethod = "EDSR";
+DEmethod = "STT";
+UPmethod = "TC";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";
@@ -53,7 +53,8 @@ for k = 1:spix^2
               full_mask(:,:,forder((mcont-1)*B+1:mcont*B)) +  SubMask;
           mcont = mcont+1;
       end
-      smallorig = cat(3,smallorig,vidFrame(order(k,1):spix:end,order(k,2):spix:end,:));
+      %smallorig = cat(3,smallorig,vidFrame(order(end-k+1,1):spix:end,order(end-k+1,2):spix:end,:));
+      smallorig = cat(3,smallorig,imresize(vidFrame,1/EDSR_SR));
       if size(smallorig,3)==8
         datae{orgcont} = smallorig;  
         orgcont = orgcont+1;

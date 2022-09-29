@@ -14,8 +14,7 @@ Official code for the work All-scalable CACTI
 
 - \(Upscaling)
 	- [x] 2DI
-	- [ ] 3DI
-	- [ ] TC
-	- [ ] EDSR
-    - [ ] VSR
-    - [ ] VSR++
+	- [x] 3DI
+	- [x] EDSR
+    - [x] VSR
+    - [x] VSR++

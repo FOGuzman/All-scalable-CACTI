@@ -17,7 +17,8 @@ class SixGraySimData(Dataset):
     def __getitem__(self,index):
         pic = scio.loadmat(osp.join(self.data_root,self.data_name_list[index]))
         if "orig" in pic:
-            pic = pic['orig']
+            meas_data = pic['meas']
+            pic = pic['orig']     
         elif "patch_save" in pic:
             pic = pic['patch_save']
         elif "p1" in pic:
@@ -46,6 +47,7 @@ class SixGraySimData(Dataset):
             elif (jj + 1) % self.frames == 0 and jj != (self.frames-1):
                 meas_t = np.expand_dims(meas_t, 0)
                 meas = np.concatenate((meas, meas_t), axis=0)
+        meas = np.transpose(meas_data, (2, 0, 1)) ## Bypass resampling in code
         return meas,pic_gt
     def __len__(self,):
         return len(self.data_name_list)

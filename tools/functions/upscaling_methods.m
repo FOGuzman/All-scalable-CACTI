@@ -1,7 +1,7 @@
 switch UPmethod    
     case "TC"
     %% Tensor completion    
-    addpath(genpath("DP3LRTC")) 
+    addpath(genpath("./tools/methods/DP3LRTC")) 
     
     opts = [ ];
     opts.tol   = 1e-4;
@@ -93,7 +93,7 @@ switch UPmethod
     for k = 1:size(pic_up,3)
     clc;fprintf('Applying 2D Interpolation for (%i/%i)\n',k,size(pic_up,3));
     dem = pic_up(:,:,k);
-    aux = imresize(dem,EDSR_SR);
+    aux = imresize(dem,EDSR_SR,'bilinear');
     if PixelAdjust == "post"
     [aux, kk]= SpatialShift(aux,order,resolution,k,kk);
     end
@@ -106,11 +106,10 @@ switch UPmethod
     %% 3D Interpolation    
         delete(dataRecon+"*.png")
         fprintf('Applying 3D Interpolation');
-        bc = 1;
+        bc = 1;kk=1;
         for b3 = 1:spix^2
             aux =  pic_up(:,:,(b3-1)*B+1:b3*B);
-            aux = imresize3(aux,[resolution resolution B]);
-            kk=1;
+            aux = imresize3(aux,[resolution resolution B]);           
             for k= 1:B
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
@@ -128,23 +127,23 @@ switch UPmethod
         delete(EDSR_testpath+"*.png")
         delete(EDSR_reconpath+"*.png")
         fprintf('Applying EDSR for %dx SR\n', EDSR_SR);
-        bc = 1;
+        bc = 1;kk=1;
         for b3 = 1:spix^2
             aux =  pic_up(:,:,(b3-1)*B+1:b3*B);
-            aux = imresize3(aux,[resolution resolution B]);
-            kk=1;
+            aux = imresize3(aux,[resolution resolution B]);           
             for k= 1:B
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
             end
             clc;fprintf('Preparing images for EDSR (%i/%i)\n',bc,size(pic_up,3));    
-            imwrite(imresize(aux(:,:,k),resolution/spix*[1 1]),EDSR_testpath+fname);
+            imwrite(imresize(aux_r,resolution/spix*[1 1]),EDSR_testpath+fname);
             bc=bc+1;
             end 
         end
                
-        system(execEDSR)
+        systxt = system(execEDSR);
+        if systxt ~= 0; error("Error in EDSR python script");end
         delete(dataRecon+"*.png")
         movefile(EDSR_reconpath+"*.png",dataRecon)
         
@@ -172,23 +171,23 @@ switch UPmethod
         delete(VSR_reconpath+"*.png")
         fprintf('Applying VSR for %dx SR\n', EDSR_SR);
         if ~isfolder(VSR_testpath);mkdir(VSR_testpath);end
-        bc = 1;
+        bc = 1;kk=1;
         for b3 = 1:spix^2
             aux =  pic_up(:,:,(b3-1)*B+1:b3*B);
             aux = imresize3(aux,[resolution resolution B]);
-            kk=1;
             for k= 1:B
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
             end
             clc;fprintf('Preparing images for VSR (%i/%i)\n',bc,size(pic_up,3));    
-            imwrite(imresize(aux(:,:,k),resolution/spix*[1 1]),VSR_testpath+fname);
+            imwrite(imresize(aux_r,resolution/spix*[1 1]),VSR_testpath+fname);
             bc=bc+1;
             end 
         end
         
-        system(execVSR)
+        systxt = system(execVSR);if systxt ~= 0; error("Error in VSR python script");end
+        
         delete(dataRecon+"*.png")
         movefile(VSR_reconpath+"*.png",dataRecon) 
         if PixelAdjust == "post"
@@ -213,22 +212,21 @@ switch UPmethod
         delete(VSRpp_reconpath+"*.png")
         fprintf('Applying VSR++ for %dx SR\n', EDSR_SR);
         if ~isfolder(VSRpp_testpath);mkdir(VSRpp_testpath);end
-        bc = 1;
+        bc = 1;kk=1;
         for b3 = 1:spix^2
             aux =  pic_up(:,:,(b3-1)*B+1:b3*B);
             aux = imresize3(aux,[resolution resolution B]);
-            kk=1;
             for k= 1:B
             fname = sprintf("f_%i_gray.png",bc);
             if PixelAdjust == "post"
              [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
             end
             clc;fprintf('Preparing images for VSR++ (%i/%i)\n',bc,size(pic_up,3));    
-            imwrite(imresize(aux(:,:,k),resolution/spix*[1 1]),VSRpp_testpath+fname);
+            imwrite(imresize(aux_r,resolution/spix*[1 1]),VSRpp_testpath+fname);
             bc=bc+1;
             end 
         end
-        system(execVSRpp)
+        systxt = system(execVSRpp);if systxt ~= 0; error("Error in VSR++ python script");end
         delete(dataRecon+"*.png")
         movefile(VSRpp_reconpath+"*.png",dataRecon) 
         if PixelAdjust == "post"
