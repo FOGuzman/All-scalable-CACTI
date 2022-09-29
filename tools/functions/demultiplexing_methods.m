@@ -82,17 +82,6 @@ case "RevSCI"
     recon_raw = pic_up;
     disp("Done")
 
-% GAP-FFDNET
-
-    case "GAP-FFDNET"
-     
-    disp("Applying GAP-FFDNET...")    
-    GAP_FFDNET_propeties_setting;    
-    [pic_up] = gapdenoise_cacti(mask,meas*255,orig,[],para);   
-    pic_up(pic_up<0) = 0;pic_up(pic_up>1) = 1;
-    pic_up = uint8(pic_up*255);
-    recon_raw = pic_up;
-    disp("Done")  
     
     
 % DeSCI
