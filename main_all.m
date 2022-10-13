@@ -4,8 +4,12 @@ addpath(genpath("tools"))
 
 datasetFolder = "./dataset/gray/";
 MetricFold = "./large_scale_metrics_results/comparing_all/";
-xlsFold = "./large_scale_metrics_results/";
+
+% append sesion in xls file
+xlsFold = "./";
 xlsSession = date;
+
+
 if ~isfolder(MetricFold);mkdir(MetricFold);end
 list = dir("dataset/gray");
 Video_list = natsort({list.name});
@@ -15,10 +19,10 @@ dataRecon = "./large_scale_results/gray/" + "Metric_aux" + "/";
 
 
 
-UpMs = ["2DI","EDSR","VSR++"];
-DeMs = ["STT"];
+UpMs = ["2DI","3DI","EDSR","VSR","VSR++"];
+DeMs = ["GAP-TV","RevSCI","SCI3D","STT"];
 alphas = [8];
-SpixS = [2 4];
+SpixS = [2 4 8];
 
 MaskMethod = "MethodDefined";
 SaveMask = 0;
@@ -276,9 +280,9 @@ save(MetricFold+RenderName + "_metrics.mat",'Results')
 
 
 if ~isfile(xlsFold+sprintf("session_%s.xlsx",xlsSession))
-    writetable(Results,xlsFold+sprintf("session_%s.xlsx",date),'Sheet',xslcont);
+    writetable(Results,xlsFold+sprintf("session_%s.xlsx",xlsSession),'Sheet',xslcont);
 else
-    writetable(Results,xlsFold+sprintf("session_%s.xlsx",date),'Sheet',xslcont,'WriteMode','append');
+    writetable(Results,xlsFold+sprintf("session_%s.xlsx",xlsSession),'Sheet',xslcont,'WriteMode','append');
 end
 
 end
