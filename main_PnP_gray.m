@@ -2,7 +2,7 @@ clear all;clc;close all
 addpath(genpath('./tools'));
 
 datasetFolder = "./dataset/gray/";
-vidName = "dogo1";
+vidName = "blade_runner";
 
 
 dataRecon = "./large_scale_results/test/" + vidName +"/";
@@ -16,10 +16,10 @@ DEmethod = "STT";
 UPmethod = "VSR++";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
-PixelAdjust = "pre";
+PixelAdjust = "post";
 SwapSensing = 0;
 B = 8;
-spix = 2;
+spix = 8;
 frames = spix^2*B;
 methodResolution = 256;
 resolution = methodResolution*spix;
@@ -29,7 +29,7 @@ EDSR_SR = spix;
 setting_propeties();
 %% Load and sampling loop
 cont = 1;
-offset = 0;
+offset = 1300;
 full_meas = zeros(resolution,resolution);
 full_mask = logical([]);
 sf = reshape([1:frames],frames/(spix^2),[])';
