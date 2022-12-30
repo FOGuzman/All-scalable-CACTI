@@ -17,7 +17,9 @@ switch MaskMethod
            cod = load('./tools/methods/RevSCI-net-master/train/mask');cod = cod.mask;  
     
      end
-
+    
+    case "Experimental" 
+         cod = load('./test_files/real_mask.mat');cod = cod.mask;
 
     case "Designed"
     %%Designed

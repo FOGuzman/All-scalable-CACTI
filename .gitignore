@@ -26,5 +26,8 @@ tools/methods/VRT-main/model_zoo/vrt/001_VRT_videosr_bi_REDS_6frames.pth
 tools/methods/BasicVSR_PlusPlus/weigths/basicvsr_plusplus_reds4.pth
 
 create_figure_wacci2022.m
+experimental.m
 figures/
+test_files/
 *.asv
+*.pyc

@@ -2,7 +2,7 @@ clear all;clc;close all
 addpath(genpath('./tools'));
 
 datasetFolder = "./dataset/gray/";
-vidName = "blade_runner";
+vidName = "dogo1";
 
 
 dataRecon = "./large_scale_results/test/" + vidName +"/";
@@ -10,16 +10,16 @@ RenderFold = "./large_scale_videos";
 
 Metrics = 1;
 RenderVideo = 1;
-SaveMask = 0;
+SaveMask = 1;
 
-DEmethod = "STT";
+DEmethod = "GAP-TV";
 UPmethod = "VSR++";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";
 SwapSensing = 0;
 B = 8;
-spix = 8;
+spix = 4;
 frames = spix^2*B;
 methodResolution = 256;
 resolution = methodResolution*spix;
@@ -29,7 +29,7 @@ EDSR_SR = spix;
 setting_propeties();
 %% Load and sampling loop
 cont = 1;
-offset = 1300;
+offset = 0;
 full_meas = zeros(resolution,resolution);
 full_mask = logical([]);
 sf = reshape([1:frames],frames/(spix^2),[])';
