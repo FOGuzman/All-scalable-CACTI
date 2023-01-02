@@ -19,7 +19,7 @@ switch MaskMethod
      end
     
     case "Experimental" 
-         cod = load('./test_files/real_mask.mat');cod = cod.mask;
+         cod = load('./test_files/gigachad_mask.mat');cod = cod.mask;
 
     case "Designed"
     %%Designed
