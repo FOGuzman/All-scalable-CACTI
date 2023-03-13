@@ -6,7 +6,7 @@ datasetFolder = "./dataset/gray/";
 MetricFold = "./large_scale_metrics_results/comparing_all/";
 
 % append sesion in xls file
-xlsFold = "./";
+xlsFold = "./figures/table/";
 xlsSession = date;
 
 
@@ -19,10 +19,10 @@ dataRecon = "./large_scale_results/gray/" + "Metric_aux" + "/";
 
 
 
-UpMs = ["2DI","3DI","EDSR","VSR","VSR++"];
-DeMs = ["GAP-TV","RevSCI","SCI3D","STT"];
+UpMs = ["TC"];
+DeMs = ["RevSCI","SCI3D","STT"];
 alphas = [8];
-SpixS = [2 4 8];
+SpixS = [8];
 
 MaskMethod = "MethodDefined";
 SaveMask = 0;
@@ -35,7 +35,7 @@ PixelAdjust = "post";
 
 lbar = multiwaitbar(5,[0 0 0 0 0],{'Please wait','Please wait'...
     ,'Please wait','Please wait','Please wait'});
-lbar.figure.Position = [540 -8 600 328];
+lbar.figure.Position = [540 -8 650 328];
 for lb=1:5
 lbar.Axeshandle(lb).list.Position(3) = lbar.Axeshandle(lb).list.Position(3)+253;
 end
@@ -280,6 +280,7 @@ save(MetricFold+RenderName + "_metrics.mat",'Results')
 
 
 if ~isfile(xlsFold+sprintf("session_%s.xlsx",xlsSession))
+    mkdir(xlsFold)
     writetable(Results,xlsFold+sprintf("session_%s.xlsx",xlsSession),'Sheet',xslcont);
 else
     writetable(Results,xlsFold+sprintf("session_%s.xlsx",xlsSession),'Sheet',xslcont,'WriteMode','append');
