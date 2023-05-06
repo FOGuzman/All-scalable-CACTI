@@ -250,6 +250,49 @@ switch UPmethod
                imwrite(aux,dataRecon+framesNames{k})
            end
         end 
+
+        
+  case "VINR"
+     %% Video Super Resolution ++    
+        VideoINR_settings
+        delete(VINR_testpath+"*.png")
+        delete(VINR_reconpath+"*.png")
+        fprintf('Applying VideoINR for %dx SR\n', spix);
+        if ~isfolder(VINR_testpath);mkdir(VINR_testpath);end
+        bc = 1;kk=1;
+        for b3 = 1:spix^2
+            aux =  pic_up(:,:,(b3-1)*B+1:b3*B);
+            aux = imresize3(aux,[resolution resolution B]);
+            for k= 1:B
+            fname = sprintf("f_%i_gray.png",bc);
+            if PixelAdjust == "post"
+             [aux_r, kk]= SpatialShift(aux(:,:,k),order,resolution,bc,kk);
+            else
+              aux_r = aux(:,:,k);
+            end
+            clc;fprintf('Preparing images for VideoINR (%i/%i)\n',bc,size(pic_up,3));    
+            imwrite(imresize(aux_r,resolution/spix*[1 1]),VINR_testpath+fname);
+            bc=bc+1;
+            end 
+        end
+        systxt = system(execVINR);if systxt ~= 0; error("Error in VideoINR python script");end
+        delete(dataRecon+"*.png")
+        movefile(VINR_reconpath+"*.png",dataRecon) 
+        if PixelAdjust == "post"
+           kk=1; 
+           list = dir(dataRecon+"*.png");
+           framesNames = natsort({list.name});
+           for k = 1:frames
+               clc;fprintf('Correcting subpixel for (%i/%i)\n',k,size(pic_up,3));  
+               aux = imread(dataRecon+framesNames{k});
+               if size(aux,1)<resolution || size(aux,1)>resolution
+                   aux = imresize(aux,[resolution resolution]);
+               end
+               imwrite(aux,dataRecon+framesNames{k})
+           end
+        end         
+        
+        
         
     otherwise
         

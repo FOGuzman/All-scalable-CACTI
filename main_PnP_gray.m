@@ -12,14 +12,14 @@ Metrics = 1;
 RenderVideo = 1;
 SaveMask = 1;
 
-DEmethod = "GAP-TV";
-UPmethod = "VSR++";
+DEmethod = "SCI3D";
+UPmethod = "VINR";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";
 SwapSensing = 0;
 B = 8;
-spix = 4;
+spix = 8;
 frames = spix^2*B;
 methodResolution = 256;
 resolution = methodResolution*spix;
