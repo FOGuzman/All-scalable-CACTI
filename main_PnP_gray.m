@@ -2,7 +2,7 @@ clear all;clc;close all
 addpath(genpath('./tools'));
 
 datasetFolder = "./dataset/gray/";
-vidName = "dogo1";
+vidName = "blade_runner";
 
 
 dataRecon = "./large_scale_results/test/" + vidName +"/";
@@ -10,9 +10,9 @@ RenderFold = "./large_scale_videos";
 
 Metrics = 1;
 RenderVideo = 1;
-SaveMask = 1;
+SaveMask = 0;
 
-DEmethod = "SCI3D";
+DEmethod = "STT";
 UPmethod = "VINR";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
@@ -29,7 +29,7 @@ EDSR_SR = spix;
 setting_propeties();
 %% Load and sampling loop
 cont = 1;
-offset = 0;
+offset = 1600;
 full_meas = zeros(resolution,resolution);
 full_mask = logical([]);
 sf = reshape([1:frames],frames/(spix^2),[])';
@@ -145,7 +145,7 @@ if Metrics
     fprintf("Calculating PSNR SSIM\n")
     list = dir(dataRecon+"*.png");
     framesNames = natsort({list.name});
-    for k = 1:max(forder) 
+    for k = 1:length(framesNames) 
         
         frame = imread(dataRecon+framesNames{k});
         reconFrame = im2double(frame);

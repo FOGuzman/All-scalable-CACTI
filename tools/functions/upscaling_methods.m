@@ -275,14 +275,14 @@ switch UPmethod
             bc=bc+1;
             end 
         end
-        systxt = system(execVINR);if systxt ~= 0; error("Error in VideoINR python script");end
+        systxt = system("conda run -n videoinr "+execVINR);if systxt ~= 0; error("Error in VideoINR python script");end
         delete(dataRecon+"*.png")
         movefile(VINR_reconpath+"*.png",dataRecon) 
         if PixelAdjust == "post"
            kk=1; 
            list = dir(dataRecon+"*.png");
            framesNames = natsort({list.name});
-           for k = 1:frames
+           for k = 1:frames-1
                clc;fprintf('Correcting subpixel for (%i/%i)\n',k,size(pic_up,3));  
                aux = imread(dataRecon+framesNames{k});
                if size(aux,1)<resolution || size(aux,1)>resolution
