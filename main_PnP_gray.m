@@ -2,7 +2,7 @@ clear all;clc;close all
 addpath(genpath('./tools'));
 
 datasetFolder = "./dataset/gray/";
-vidName = "blade_runner";
+vidName = "sticks";
 
 
 dataRecon = "./large_scale_results/test/" + vidName +"/";
@@ -13,7 +13,7 @@ RenderVideo = 1;
 SaveMask = 0;
 
 DEmethod = "STT";
-UPmethod = "VINR";
+UPmethod = "VSR";
 MaskMethod = "MethodDefined";
 OrderType = "spiral";
 PixelAdjust = "post";
@@ -29,7 +29,7 @@ EDSR_SR = spix;
 setting_propeties();
 %% Load and sampling loop
 cont = 1;
-offset = 1600;
+offset = 0;
 full_meas = zeros(resolution,resolution);
 full_mask = logical([]);
 sf = reshape([1:frames],frames/(spix^2),[])';
