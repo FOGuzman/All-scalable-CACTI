@@ -5,12 +5,11 @@ Felipe O. Guzman, et al.
 
 This repository contains all of the MATLAB and Python tools used to generate the experiments, reconstructions, and figures presented in the paper.
 
-
-````markdown
 ## 🛠️ Installation
 
 1. **Clone this repository**  
-   ```bash
+
+```bash
    git clone https://github.com/FOGuzman/All-scalable-CACTI.git
    cd All-scalable-CACTI
 ````
