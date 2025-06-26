@@ -113,24 +113,6 @@ If you use this code in your research, please cite:
   publisher={IEEE}
 }
 ```
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes
-
-   ```bash
-   git commit -m "Add feature"
-   ```
-4. Push to your branch
-
-   ```bash
-   git push origin feature-name
-   ```
 
 ## 📬 Contact
 
